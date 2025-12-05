@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { db } from "@/lib/firebase";
-import { collection, query, where, getDocs, addDoc, updateDoc, doc, runTransaction } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, runTransaction } from "firebase/firestore";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -30,13 +30,7 @@ export default function BookClassPage() {
     const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    useEffect(() => {
-        if (date) {
-            fetchSlots(date);
-        }
-    }, [date]);
-
-    const fetchSlots = async (selectedDate: Date) => {
+    const fetchSlots = useCallback(async (selectedDate: Date) => {
         setLoading(true);
         try {
             // Format date to ISO string (YYYY-MM-DD) for query
@@ -69,7 +63,13 @@ export default function BookClassPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [toast]);
+
+    useEffect(() => {
+        if (date) {
+            fetchSlots(date);
+        }
+    }, [date, fetchSlots]);
 
     const handleBookSlot = async () => {
         if (!selectedSlot || !user) return;
@@ -115,7 +115,7 @@ export default function BookClassPage() {
             setIsDialogOpen(false);
             if (date) fetchSlots(date); // Refresh slots
 
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error("Booking error:", error);
             toast({
                 title: "Booking Failed",

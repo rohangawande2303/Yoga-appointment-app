@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Calendar, Sparkles, ArrowRight } from "lucide-react";
-import Image from "next/image";
+
 
 export default function StudentDashboard() {
     const { user } = useAuth();

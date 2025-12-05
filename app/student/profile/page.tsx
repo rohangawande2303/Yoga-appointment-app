@@ -7,7 +7,7 @@ import { db } from "@/lib/firebase";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+
 import { format } from "date-fns";
 import { Loader2, Mail, Phone, Calendar, Clock, History } from "lucide-react";
 import { motion } from "framer-motion";

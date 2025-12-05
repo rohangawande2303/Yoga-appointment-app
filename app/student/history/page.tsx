@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { db } from "@/lib/firebase";
-import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { Card, CardContent } from "@/components/ui/card";
 import { format } from "date-fns";
-import { Loader2, Calendar, Clock, CheckCircle, XCircle } from "lucide-react";
+import { Loader2, Calendar, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 interface Booking {
