@@ -26,7 +26,10 @@ export default function AdminLayout({
         if (pathname === "/admin/login") return;
 
         if (!loading) {
-            if (!user || user.email !== "admin@yoga.com") {
+            if (!user) {
+                setIsAuthorized(false);
+                router.push("/admin/login");
+            } else if (user.email !== "admin@yoga.com") {
                 setIsAuthorized(false);
                 router.push("/admin/unauthorized");
             } else {
