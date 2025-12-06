@@ -2,13 +2,18 @@
 
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
-import { auth, db } from "@/lib/firebase";
+import { auth } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 import { Lock } from "lucide-react";
 
 export default function AdminLoginPage() {
@@ -24,8 +29,7 @@ export default function AdminLoginPage() {
         setError("");
 
         try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
+            await signInWithEmailAndPassword(auth, email, password);
 
             // Hardcoded Admin Check
             const ADMIN_EMAIL = "admin@yoga.com";
@@ -36,7 +40,7 @@ export default function AdminLoginPage() {
                 setError("Access denied. You are not an admin.");
                 await auth.signOut();
             }
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
             setError("Invalid email or password.");
         } finally {
@@ -53,8 +57,12 @@ export default function AdminLoginPage() {
                             <Lock className="h-6 w-6 text-primary" />
                         </div>
                     </div>
-                    <CardTitle className="text-2xl font-bold text-center">Admin Login</CardTitle>
-                    <CardDescription className="text-center">Restricted access for teachers only</CardDescription>
+                    <CardTitle className="text-2xl font-bold text-center">
+                        Admin Login
+                    </CardTitle>
+                    <CardDescription className="text-center">
+                        Restricted access for teachers only
+                    </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleLogin} className="space-y-4">
@@ -79,8 +87,14 @@ export default function AdminLoginPage() {
                                 required
                             />
                         </div>
-                        {error && <p className="text-sm text-red-500">{error}</p>}
-                        <Button type="submit" className="w-full" disabled={loading}>
+                        {error && (
+                            <p className="text-sm text-red-500">{error}</p>
+                        )}
+                        <Button
+                            type="submit"
+                            className="w-full"
+                            disabled={loading}
+                        >
                             {loading ? "Verifying..." : "Login to Dashboard"}
                         </Button>
                     </form>

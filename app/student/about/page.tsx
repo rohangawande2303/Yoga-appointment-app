@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Facebook, Instagram, Twitter, Mail, Phone, MapPin, Heart } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 
 export default function AboutPage() {
     return (
@@ -78,7 +77,7 @@ export default function AboutPage() {
                         <CardContent className="p-6">
                             <h3 className="text-xl font-semibold mb-4">What is Yoga?</h3>
                             <p className="text-muted-foreground">
-                                Yoga is an ancient practice that combines physical postures, breathing techniques, and meditation to promote overall health and well-being. It's a holistic approach to wellness that benefits both body and mind.
+                                Yoga is an ancient practice that combines physical postures, breathing techniques, and meditation to promote overall health and well-being. It&apos;s a holistic approach to wellness that benefits both body and mind.
                             </p>
                         </CardContent>
                     </Card>
@@ -86,7 +85,7 @@ export default function AboutPage() {
                         <CardContent className="p-6">
                             <h3 className="text-xl font-semibold mb-4">Our Approach</h3>
                             <p className="text-muted-foreground">
-                                We believe in personalized instruction that meets you where you are. Whether you're a complete beginner or an experienced practitioner, our classes are designed to challenge and inspire you.
+                                We believe in personalized instruction that meets you where you are. Whether you&apos;re a complete beginner or an experienced practitioner, our classes are designed to challenge and inspire you.
                             </p>
                         </CardContent>
                     </Card>

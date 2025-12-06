@@ -22,12 +22,9 @@ export default function AdminLayout({
     const { user, loading } = useAuth();
     const [isAuthorized, setIsAuthorized] = useState(false);
 
-    // Skip layout for login page
-    if (pathname === "/admin/login") {
-        return <>{children}</>;
-    }
-
     useEffect(() => {
+        if (pathname === "/admin/login") return;
+
         if (!loading) {
             if (!user || user.email !== "admin@yoga.com") {
                 setIsAuthorized(false);
@@ -36,7 +33,13 @@ export default function AdminLayout({
                 setIsAuthorized(true);
             }
         }
-    }, [user, loading, router]);
+    }, [user, loading, router, pathname]);
+
+    // Skip layout for login page
+    if (pathname === "/admin/login") {
+        return <>{children}</>;
+    }
+
 
     if (loading) {
         return (

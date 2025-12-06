@@ -12,7 +12,7 @@ import { format } from "date-fns";
 import { Trash2, Plus, Calendar as CalendarIcon, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
@@ -39,7 +39,7 @@ function getNext7Days() {
 
 export default function SlotManagementPage() {
     const [slots, setSlots] = useState<Slot[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [_loading, setLoading] = useState(true);
     const [newDate, setNewDate] = useState("");
     const [newTime, setNewTime] = useState("");
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -327,7 +327,7 @@ export default function SlotManagementPage() {
                                 {slots.length === 0 && (
                                     <TableRow>
                                         <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
-                                            No slots found. Click "+ Add Single Slot" or "Quick Generate" to create slots.
+                                            No slots found. Click &quot;+ Add Single Slot&quot; or &quot;Quick Generate&quot; to create slots.
                                         </TableCell>
                                     </TableRow>
                                 )}

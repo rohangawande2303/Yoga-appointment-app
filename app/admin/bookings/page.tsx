@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { db } from "@/lib/firebase";
-import { collection, query, getDocs, orderBy, where } from "firebase/firestore";
+import { collection, query, getDocs, where } from "firebase/firestore";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
@@ -19,7 +19,7 @@ interface Booking {
 
 export default function BookingsPage() {
     const [bookings, setBookings] = useState<Booking[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [_loading, setLoading] = useState(true);
     const [filterDate, setFilterDate] = useState("");
 
     useEffect(() => {
