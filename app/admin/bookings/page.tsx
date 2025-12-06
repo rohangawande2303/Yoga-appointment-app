@@ -19,7 +19,7 @@ interface Booking {
 
 export default function BookingsPage() {
     const [bookings, setBookings] = useState<Booking[]>([]);
-    const [_loading, setLoading] = useState(true);
+    const [, setLoading] = useState(true);
     const [filterDate, setFilterDate] = useState("");
 
     useEffect(() => {

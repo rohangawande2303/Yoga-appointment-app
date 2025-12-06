@@ -26,7 +26,8 @@ export default function LoginPage() {
         try {
             await signInWithEmailAndPassword(auth, email, password);
             router.push("/student");
-        } catch (err: any) {
+        } catch (err: unknown) {
+            console.error("Login error:", err);
             setError("Invalid email or password.");
         } finally {
             setLoading(false);
@@ -56,8 +57,12 @@ export default function LoginPage() {
             }
 
             router.push("/student");
-        } catch (err: any) {
-            setError(err.message);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("An error occurred with Google login.");
+            }
             setLoading(false);
         }
     };
@@ -101,7 +106,7 @@ export default function LoginPage() {
                 </CardContent>
                 <CardFooter className="justify-center">
                     <p className="text-sm text-gray-600">
-                        Don't have an account?{" "}
+                        Don&apos;t have an account?{" "}
                         <Link href="/auth/signup" className="text-primary hover:underline">
                             Sign up
                         </Link>

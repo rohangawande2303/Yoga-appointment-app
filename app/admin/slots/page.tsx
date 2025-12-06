@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
-import { Trash2, Plus, Calendar as CalendarIcon, Sparkles } from "lucide-react";
+import { Trash2, Plus, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -39,7 +39,7 @@ function getNext7Days() {
 
 export default function SlotManagementPage() {
     const [slots, setSlots] = useState<Slot[]>([]);
-    const [_loading, setLoading] = useState(true);
+    const [, setLoading] = useState(true);
     const [newDate, setNewDate] = useState("");
     const [newTime, setNewTime] = useState("");
     const [isDialogOpen, setIsDialogOpen] = useState(false);

@@ -16,7 +16,7 @@ interface Student {
 
 export default function StudentsPage() {
     const [students, setStudents] = useState<Student[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchStudents = async () => {
