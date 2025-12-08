@@ -10,80 +10,91 @@
 
 @layer base {
   :root {
-    /* Background: #FEFAE0 (Soft Cream) */
-    --background: 55 100% 94%;
-    /* Foreground: #626F47 (Olive Green) */
-    --foreground: 74 20% 35%;
+    /* Background: Very Light Blue (Blue 50) */
+    --background: 214 100% 97%;
+    /* Foreground: Very Dark Blue (Blue 950) */
+    --foreground: 227 59% 21%;
 
-    /* Card: very light cream (#FEFAE0) or slightly deeper */
-    --card: 55 80% 92%;
-    --card-foreground: 74 20% 35%;
+    /* Card: White */
+    --card: 0 0% 100%;
+    --card-foreground: 227 59% 21%;
 
-    /* Popover */
-    --popover: 55 100% 94%;
-    --popover-foreground: 74 20% 35%;
+    /* Popover: White */
+    --popover: 0 0% 100%;
+    --popover-foreground: 227 59% 21%;
 
-    /* Primary: #A4B465 (Muted Green) */
-    --primary: 74 33% 55%;
+    /* Primary: Bright Brand Blue (Blue 500) */
+    --primary: 216 100% 58%;
+    /* Primary Foreground: White */
     --primary-foreground: 0 0% 100%;
-    /* White text looks best */
 
-    /* Secondary: #F5F5F5 (Very Light Gray) */
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 74 20% 35%;
+    /* Secondary: Light Blue (Blue 100) */
+    --secondary: 214 95% 93%;
+    --secondary-foreground: 225 67% 33%;
 
-    /* Muted: #EEEEEE (Light Gray) */
-    --muted: 0 0% 93%;
-    --muted-foreground: 74 20% 35%;
+    /* Muted: Slate/Light Grey (Blue 50 approx equivalent in greyscale/slate) */
+    --muted: 210 40% 96%;
+    --muted-foreground: 212 100% 66%;
 
-    /* Accent: #FFCF50 (Warm Yellow) */
-    --accent: 43 100% 66%;
-    --accent-foreground: 74 20% 20%;
-    /* Dark olive for contrast */
+    /* Accent: Complementary Orange */
+    --accent: 24 95% 53%;
+    --accent-foreground: 0 0% 100%;
 
-    /* Destructive (same as before) */
+    /* Destructive: Red */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    /* Border: light gray */
-    --border: 0 0% 90%;
-    /* Input */
-    --input: 0 0% 90%;
-    /* Ring: use primary green */
-    --ring: 74 33% 55%;
+    /* Border: Soft Blue (Blue 200) */
+    --border: 213 100% 87%;
+    /* Input: Soft Blue */
+    --input: 213 100% 87%;
+    /* Ring: Primary Blue */
+    --ring: 216 100% 58%;
 
     --radius: 0.5rem;
   }
 
   .dark {
-    /* SAME PALETTE FOR DARK MODE (your previous logic) */
-    --background: 55 100% 94%;
-    --foreground: 74 20% 35%;
+    /* Dark Mode Inversion: Dark Blue Bg, Light Blue Text */
+    /* Background: Dark Blue (Blue 950) */
+    --background: 227 59% 21%;
+    /* Foreground: Very Light Blue (Blue 50) */
+    --foreground: 214 100% 97%;
 
-    --card: 55 80% 92%;
-    --card-foreground: 74 20% 35%;
+    /* Card: Dark Blue (Blue 900) */
+    --card: 225 67% 33%;
+    --card-foreground: 214 100% 97%;
 
-    --popover: 55 100% 94%;
-    --popover-foreground: 74 20% 35%;
+    /* Popover */
+    --popover: 225 67% 33%;
+    --popover-foreground: 214 100% 97%;
 
-    --primary: 74 33% 55%;
+    /* Primary: Bright Blue (Blue 500) - Same for pop */
+    --primary: 216 100% 58%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 74 20% 35%;
+    /* Secondary: Muted Blue (Blue 800) */
+    --secondary: 227 76% 41%;
+    --secondary-foreground: 214 100% 97%;
 
-    --muted: 0 0% 93%;
-    --muted-foreground: 74 20% 35%;
+    /* Muted: Deep Blue */
+    --muted: 227 59% 21%;
+    --muted-foreground: 213 100% 87%;
 
-    --accent: 43 100% 66%;
-    --accent-foreground: 74 20% 20%;
+    /* Accent: Complementary Orange */
+    --accent: 24 95% 53%;
+    --accent-foreground: 0 0% 100%;
 
+    /* Destructive */
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 74 33% 55%;
+    /* Border: Dark Blue (Blue 800) */
+    --border: 227 76% 41%;
+    /* Input */
+    --input: 227 76% 41%;
+    /* Ring */
+    --ring: 216 100% 58%;
   }
 }
 
