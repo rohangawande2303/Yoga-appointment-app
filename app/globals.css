@@ -10,91 +10,52 @@
 
 @layer base {
   :root {
-    /* Background: Very Light Blue (Blue 50) */
-    --background: 214 100% 97%;
-    /* Foreground: Very Dark Blue (Blue 950) */
-    --foreground: 227 59% 21%;
+    /* Zenith Yoga Theme - Dark by default as per design images */
 
-    /* Card: White */
-    --card: 0 0% 100%;
-    --card-foreground: 227 59% 21%;
+    /* Background: Deep Navy (Slate 950) */
+    --background: 222 47% 11%;
+    /* Foreground: White/Off-white */
+    --foreground: 210 40% 98%;
 
-    /* Popover: White */
-    --popover: 0 0% 100%;
-    --popover-foreground: 227 59% 21%;
+    /* Card: Dark Slate (Slate 900/800 mix) */
+    --card: 217 33% 17%;
+    --card-foreground: 210 40% 98%;
 
-    /* Primary: Bright Brand Blue (Blue 500) */
-    --primary: 216 100% 58%;
-    /* Primary Foreground: White */
-    --primary-foreground: 0 0% 100%;
+    /* Popover: Same as card */
+    --popover: 217 33% 17%;
+    --popover-foreground: 210 40% 98%;
 
-    /* Secondary: Light Blue (Blue 100) */
-    --secondary: 214 95% 93%;
-    --secondary-foreground: 225 67% 33%;
+    /* Primary: Vivid Blue (Blue 500/600) */
+    --primary: 221 83% 53%;
+    --primary-foreground: 210 40% 98%;
 
-    /* Muted: Slate/Light Grey (Blue 50 approx equivalent in greyscale/slate) */
-    --muted: 210 40% 96%;
-    --muted-foreground: 212 100% 66%;
+    /* Secondary: Slate 800 */
+    --secondary: 215 28% 17%;
+    --secondary-foreground: 210 40% 98%;
 
-    /* Accent: Complementary Orange */
-    --accent: 24 95% 53%;
-    --accent-foreground: 0 0% 100%;
+    /* Muted: Slate 500/600 */
+    --muted: 215 16% 47%;
+    --muted-foreground: 215 20% 65%;
+
+    /* Accent: Maybe a lighter blue or the same primary */
+    --accent: 217 91% 60%;
+    --accent-foreground: 210 40% 98%;
 
     /* Destructive: Red */
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 210 40% 98%;
 
-    /* Border: Soft Blue (Blue 200) */
-    --border: 213 100% 87%;
-    /* Input: Soft Blue */
-    --input: 213 100% 87%;
-    /* Ring: Primary Blue */
-    --ring: 216 100% 58%;
+    /* Border: Slate 800 */
+    --border: 215 28% 17%;
+    --input: 215 28% 17%;
+    --ring: 221 83% 53%;
 
     --radius: 0.5rem;
   }
 
-  .dark {
-    /* Dark Mode Inversion: Dark Blue Bg, Light Blue Text */
-    /* Background: Dark Blue (Blue 950) */
-    --background: 227 59% 21%;
-    /* Foreground: Very Light Blue (Blue 50) */
-    --foreground: 214 100% 97%;
-
-    /* Card: Dark Blue (Blue 900) */
-    --card: 225 67% 33%;
-    --card-foreground: 214 100% 97%;
-
-    /* Popover */
-    --popover: 225 67% 33%;
-    --popover-foreground: 214 100% 97%;
-
-    /* Primary: Bright Blue (Blue 500) - Same for pop */
-    --primary: 216 100% 58%;
-    --primary-foreground: 0 0% 100%;
-
-    /* Secondary: Muted Blue (Blue 800) */
-    --secondary: 227 76% 41%;
-    --secondary-foreground: 214 100% 97%;
-
-    /* Muted: Deep Blue */
-    --muted: 227 59% 21%;
-    --muted-foreground: 213 100% 87%;
-
-    /* Accent: Complementary Orange */
-    --accent: 24 95% 53%;
-    --accent-foreground: 0 0% 100%;
-
-    /* Destructive */
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-
-    /* Border: Dark Blue (Blue 800) */
-    --border: 227 76% 41%;
-    /* Input */
-    --input: 227 76% 41%;
-    /* Ring */
-    --ring: 216 100% 58%;
+  /* Optional: If we want a light mode later, we can define it in .light, but for now :root is the requested design */
+  .light {
+    /* Placeholder for light mode if needed later */
   }
 }
 

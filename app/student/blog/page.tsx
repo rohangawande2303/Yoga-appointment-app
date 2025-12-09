@@ -1,157 +1,108 @@
-"use client";
-
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { motion } from "framer-motion";
-import { Calendar, Clock, ArrowRight, ExternalLink } from "lucide-react";
-import Link from "next/link";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
+import { getOgImage } from "@/lib/getOgImage";
+import FeaturedArticle from "./featured-article";
+import BlogCard from "./blog-card";
 
-const BLOG_POSTS = [
-    {
-        id: 1,
-        title: "5 Essential Yoga Poses for Beginners",
-        excerpt: "Start your yoga journey with these foundational poses that build strength, flexibility, and mindfulness.",
-        category: "Beginner",
-        readTime: "5 min read",
-        date: "Dec 1, 2024",
-        slug: "5-essential-yoga-poses-for-beginners",
-        url: "https://www.yogajournal.com/practice/beginners/",
-    },
-    {
-        id: 2,
-        title: "The Science Behind Yoga and Stress Relief",
-        excerpt: "Discover how yoga affects your nervous system and why it's one of the most effective stress-management tools.",
-        category: "Wellness",
-        readTime: "7 min read",
-        date: "Nov 28, 2024",
-        slug: "science-behind-yoga-stress-relief",
-        url: "https://www.health.harvard.edu/staying-healthy/yoga-benefits-beyond-the-mat",
-    },
-    {
-        id: 3,
-        title: "Morning Yoga Routine for Energy",
-        excerpt: "Wake up your body and mind with this energizing 15-minute morning yoga sequence.",
-        category: "Practice",
-        readTime: "4 min read",
-        date: "Nov 25, 2024",
-        slug: "morning-yoga-routine-energy",
-        url: "https://www.yogajournal.com/practice/yoga-sequences/morning-yoga-sequence/",
-    },
-    {
-        id: 4,
-        title: "Breathing Techniques for Better Sleep",
-        excerpt: "Learn pranayama techniques that can help you fall asleep faster and improve sleep quality.",
-        category: "Wellness",
-        readTime: "6 min read",
-        date: "Nov 20, 2024",
-        slug: "breathing-techniques-better-sleep",
-        url: "https://www.sleepfoundation.org/sleep-hygiene/yoga-for-sleep",
-    },
-    {
-        id: 5,
-        title: "Yoga for Back Pain: Gentle Poses That Help",
-        excerpt: "Alleviate back pain with these gentle yoga poses designed to strengthen and stretch your spine.",
-        category: "Therapy",
-        readTime: "8 min read",
-        date: "Nov 15, 2024",
-        slug: "yoga-for-back-pain",
-        url: "https://www.spine-health.com/wellness/exercise/yoga-back-pain-relief",
-    },
-    {
-        id: 6,
-        title: "Building a Consistent Yoga Practice",
-        excerpt: "Tips and strategies to maintain a regular yoga practice and make it a sustainable part of your life.",
-        category: "Lifestyle",
-        readTime: "5 min read",
-        date: "Nov 10, 2024",
-        slug: "building-consistent-yoga-practice",
-        url: "https://www.yogajournal.com/practice/build-home-practice/",
-    },
-];
+const FALLBACK_IMAGE =
+    "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=1200&q=80";
 
-export default function BlogPage() {
-    const container = {
-        hidden: { opacity: 0 },
-        show: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1
-            }
-        }
+export default async function BlogPage() {
+    const featuredArticle = {
+        title: "The Science Behind Mindfulness and Stress Reduction",
+        description:
+            "Discover how daily mindfulness practice can physically reshape your brain and lower stress hormones.",
+        category: "Mental Health",
+        author: "Dr. Andrew Huberman",
+        date: "Oct 12, 2023",
+        imageUrl: "/blog-featured.jpg",
+        link: "https://www.yogajournal.com/meditation/how-to-meditate/",
     };
 
-    const item = {
-        hidden: { opacity: 0, y: 20 },
-        show: { opacity: 1, y: 0 }
-    };
+    const articles = [
+        {
+            title: "5 Yoga Poses to Help You Sleep Better",
+            description: "Gentle yoga poses that calm your nervous system and improve sleep quality.",
+            category: "Wellness",
+            date: "Yoga Journal",
+            link: "https://www.yogajournal.com/poses/yoga-by-benefit/sleep/",
+        },
+        {
+            title: "Mindfulness Meditation: A Beginner’s Guide",
+            description: "What mindfulness meditation is and how to start practicing it daily.",
+            category: "Mindfulness",
+            date: "Verywell Mind",
+            link: "https://www.verywellmind.com/mindfulness-meditation-88369",
+        },
+        {
+            title: "Yoga for Beginners: Simple Tips to Get Started",
+            description: "A complete beginner-friendly guide to starting yoga safely.",
+            category: "Practice",
+            date: "Healthline",
+            link: "https://www.healthline.com/health/fitness/yoga-for-beginners",
+        },
+        {
+            title: "The 7 Chakras: Meaning and Energy Explained",
+            description: "Understand the chakra system and how it relates to mental and physical well-being.",
+            category: "Philosophy",
+            date: "Yoga Journal",
+            link: "https://www.yogajournal.com/yoga-101/chakras/",
+        },
+        {
+            title: "What to Eat Before and After Yoga",
+            description: "Nutrition tips for fueling your yoga practice and recovery.",
+            category: "Nutrition",
+            date: "Healthline",
+            link: "https://www.healthline.com/nutrition/best-pre-yoga-foods",
+        },
+        {
+            title: "Hot Yoga Benefits and Safety Tips",
+            description: "Pros, cons, and safety advice before trying hot yoga.",
+            category: "Practice",
+            date: "Healthline",
+            link: "https://www.healthline.com/health/hot-yoga",
+        },
+    ];
+
+    const articlesWithImages = await Promise.all(
+        articles.map(async (article) => ({
+            ...article,
+            image: (await getOgImage(article.link)) ?? FALLBACK_IMAGE,
+        }))
+    );
 
     return (
-        <div className="container p-4 md:p-8 max-w-6xl mx-auto">
-            <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mb-8 text-center"
-            >
-                <h1 className="text-4xl font-bold tracking-tight mb-2">Yoga Blog</h1>
-                <p className="text-muted-foreground text-lg">Insights, tips, and inspiration for your yoga journey</p>
-            </motion.div>
+        <div className="min-h-screen bg-background text-foreground">
+            {/* Header */}
+            <div className="bg-slate-950 py-16 text-center">
+                <Badge variant="outline" className="mb-4">
+                    The Yoga Journal
+                </Badge>
 
-            <motion.div
-                variants={container}
-                initial="hidden"
-                animate="show"
-                className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-            >
-                {BLOG_POSTS.map((post) => (
-                    <motion.div key={post.id} variants={item}>
-                        <Card className="h-full border-none shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                            <CardHeader>
-                                <div className="flex items-center justify-between mb-2">
-                                    <Badge variant="secondary">{post.category}</Badge>
-                                    <div className="flex items-center text-xs text-muted-foreground">
-                                        <Clock className="w-3 h-3 mr-1" />
-                                        {post.readTime}
-                                    </div>
-                                </div>
-                                <CardTitle className="text-xl">{post.title}</CardTitle>
-                                <CardDescription className="flex items-center text-xs">
-                                    <Calendar className="w-3 h-3 mr-1" />
-                                    {post.date}
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{post.excerpt}</p>
-                                <Link href={post.url} target="_blank" rel="noopener noreferrer">
-                                    <Button variant="outline" className="w-full group">
-                                        Read More
-                                        <ExternalLink className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                                    </Button>
-                                </Link>
-                            </CardContent>
-                        </Card>
-                    </motion.div>
-                ))}
-            </motion.div>
+                <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">
+                    Insights for your <span className="text-primary">Body & Mind</span>
+                </h1>
 
-            {/* Newsletter CTA */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="mt-12 bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg p-8 text-center"
-            >
-                <h2 className="text-2xl font-bold mb-4">Stay Updated</h2>
-                <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                    Want more yoga tips and wellness insights? Book a class with us and get personalized guidance!
+                <p className="text-muted-foreground max-w-xl mx-auto mb-6">
+                    Explore articles to deepen your yoga and wellness journey.
                 </p>
-                <Link href="/student/book">
-                    <Button size="lg" className="shadow-lg">
-                        Book a Class
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                </Link>
-            </motion.div>
+
+                <div className="relative max-w-md mx-auto">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" />
+                    <Input placeholder="Search articles..." className="pl-10 rounded-full" />
+                </div>
+            </div>
+
+            <div className="container mx-auto px-4 py-12">
+                <FeaturedArticle article={featuredArticle} />
+
+                <div className="grid md:grid-cols-2 gap-8">
+                    {articlesWithImages.map((article, i) => (
+                        <BlogCard key={i} article={article} />
+                    ))}
+                </div>
+            </div>
         </div>
     );
 }

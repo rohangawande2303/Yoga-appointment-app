@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Home, User, Info, BookOpen } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { User, Flower, Shield, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,87 +13,138 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { auth } from "@/lib/firebase";
-import { signOut } from "firebase/auth";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
-import { Shield, LogOut } from "lucide-react";
 
 export function SiteHeader() {
     const pathname = usePathname();
     const router = useRouter();
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
 
     const handleLogout = async () => {
-        await signOut(auth);
+        await logout();
         router.push("/auth/login");
     };
 
     const links = [
-        { href: "/student", label: "Home", icon: Home },
-        { href: "/student/about", label: "About", icon: Info },
-        { href: "/student/blog", label: "Blog", icon: BookOpen },
+        { href: "/student/about", label: "About" },
+        { href: "/student/blog", label: "Blog" },
     ];
 
     const isAdmin = user?.email === "admin@yoga.com";
 
+    // Zenith Yoga Logo
+    const Logo = () => (
+        <Link
+            href="/student"
+            className="flex items-center space-x-2 text-primary hover:opacity-90 transition-opacity"
+        >
+            <Flower className="h-6 w-6" />
+            <span className="font-bold text-xl tracking-tight text-white">
+                Zenith Yoga
+            </span>
+        </Link>
+    );
+
     return (
-        <header className="sticky top-0 z-50 hidden w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:block">
-            <div className="container flex h-14 items-center">
-                <div className="mr-4 hidden md:flex">
-                    <Link href="/student" className="mr-6 flex items-center space-x-2">
-                        <span className="hidden font-bold sm:inline-block">Yoga App</span>
-                    </Link>
-                    <nav className="flex items-center space-x-6 text-sm font-medium">
-                        {links.map((link) => (
-                            <Link
-                                key={link.href}
-                                href={link.href}
-                                className={cn(
-                                    "transition-colors hover:text-foreground/80",
-                                    pathname === link.href ? "text-foreground" : "text-foreground/60"
-                                )}
-                            >
-                                {link.label}
-                            </Link>
-                        ))}
-                    </nav>
-                </div>
-                <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                                <User className="h-5 w-5" />
-                                <span className="sr-only">User menu</span>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-48">
-                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem asChild>
-                                <Link href="/student/profile" className="cursor-pointer">
-                                    <User className="mr-2 h-4 w-4" />
-                                    Profile
-                                </Link>
-                            </DropdownMenuItem>
-                            {isAdmin && (
-                                <>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem asChild>
-                                        <Link href="/admin" className="cursor-pointer text-primary">
-                                            <Shield className="mr-2 h-4 w-4" />
-                                            Admin Dashboard
-                                        </Link>
-                                    </DropdownMenuItem>
-                                </>
+        <header className="sticky top-0 z-50 w-full border-b border-border/10 bg-background/80 backdrop-blur-md">
+            <div className="container flex h-16 items-center justify-between px-4 md:px-6">
+                <Logo />
+
+                {/* Desktop Nav */}
+                <nav className="hidden md:flex items-center gap-8">
+                    {links.map((link) => (
+                        <Link
+                            key={link.href}
+                            href={link.href}
+                            className={cn(
+                                "text-sm font-medium transition-colors hover:text-primary",
+                                pathname === link.href
+                                    ? "text-primary"
+                                    : "text-muted-foreground"
                             )}
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-red-500">
-                                <LogOut className="mr-2 h-4 w-4" />
-                                Logout
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                        >
+                            {link.label}
+                        </Link>
+                    ))}
+
+                    <Link href="/student/book">
+                        <Button className="font-semibold bg-primary hover:bg-primary/90 text-white rounded-full px-6">
+                            Book Now
+                        </Button>
+                    </Link>
+
+                    {user && (
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="rounded-full"
+                                >
+                                    <User className="h-5 w-5" />
+                                    <span className="sr-only">User menu</span>
+                                </Button>
+                            </DropdownMenuTrigger>
+
+                            <DropdownMenuContent
+                                align="end"
+                                className="w-56 bg-card border-border"
+                            >
+                                <DropdownMenuLabel>
+                                    My Account
+                                </DropdownMenuLabel>
+
+                                <DropdownMenuSeparator className="bg-border" />
+
+                                <DropdownMenuItem asChild>
+                                    <Link
+                                        href="/student/profile"
+                                        className="cursor-pointer"
+                                    >
+                                        <User className="mr-2 h-4 w-4" />
+                                        Profile
+                                    </Link>
+                                </DropdownMenuItem>
+
+                                {isAdmin && (
+                                    <>
+                                        <DropdownMenuSeparator className="bg-border" />
+                                        <DropdownMenuItem asChild>
+                                            <Link
+                                                href="/admin"
+                                                className="cursor-pointer text-primary"
+                                            >
+                                                <Shield className="mr-2 h-4 w-4" />
+                                                Admin Dashboard
+                                            </Link>
+                                        </DropdownMenuItem>
+                                    </>
+                                )}
+
+                                <DropdownMenuSeparator className="bg-border" />
+
+                                <DropdownMenuItem
+                                    onClick={handleLogout}
+                                    className="cursor-pointer text-red-500 focus:text-red-500"
+                                >
+                                    <LogOut className="mr-2 h-4 w-4" />
+                                    Logout
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    )}
+                </nav>
+
+                {/* Mobile Right Action (no hamburger) */}
+                <div className="md:hidden flex items-center gap-4">
+                    <Link href="/student/book">
+                        <Button
+                            size="sm"
+                            className="font-semibold bg-primary hover:bg-primary/90 text-white rounded-full"
+                        >
+                            Book
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </header>
