@@ -2,29 +2,26 @@
 
 import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
-import { collection, getDocs, query, where, addDoc, orderBy, limit } from "firebase/firestore";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
+// import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import {
     Users,
     Calendar,
-    TrendingUp,
     Search,
     Bell,
-    Plus,
     Megaphone,
     MoreVertical,
     ChevronLeft,
     ChevronRight,
     Loader2,
-    X,
     UserPlus,
     Send
 } from "lucide-react";
@@ -46,6 +43,22 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 
+/* ---------------- TYPES ---------------- */
+
+type Booking = {
+    id: string;
+    date?: string;
+    time?: string;
+    class?: string;
+    teacher?: string;
+    price?: number;
+    userName?: string;
+    createdAt?: string;
+};
+
+type Activity = Booking & {
+    type?: "booking";
+};
 export default function AdminDashboard() {
     const { toast } = useToast();
     const [stats, setStats] = useState({
@@ -53,8 +66,8 @@ export default function AdminDashboard() {
         todayBookingsCount: 0,
         monthlyRevenue: 0,
     });
-    const [bookings, setBookings] = useState<any[]>([]); // Today's bookings
-    const [recentActivity, setRecentActivity] = useState<any[]>([]); // For notifications
+    const [bookings, setBookings] = useState<Booking[]>([]);
+    const [recentActivity, setRecentActivity] = useState<Activity[]>([]);
     const [loading, setLoading] = useState(true);
 
     // Form States
@@ -80,10 +93,10 @@ export default function AdminDashboard() {
 
             let totalRevenue = 0;
             const todayStr = format(new Date(), "yyyy-MM-dd");
-            const todayBookingsData: any[] = [];
+            const todayBookingsData: Booking[] = [];
 
             // Temporary array for all bookings to sort for "Recent Activity"
-            const allBookings: any[] = [];
+            const allBookings: Activity[] = [];
 
             bookingsSnap.forEach((doc) => {
                 const data = doc.data();
@@ -95,8 +108,12 @@ export default function AdminDashboard() {
             // Simulate recent activity from bookings (newest first)
             // In a real app, you might have a dedicated 'activities' or 'notifications' collection
             const sortedActivity = allBookings
-                .sort((a, b) => new Date(b.createdAt || b.date).getTime() - new Date(a.createdAt || a.date).getTime())
+                .sort((a: Activity, b: Activity) =>
+                    new Date(b.createdAt || b.date || "").getTime() -
+                    new Date(a.createdAt || a.date || "").getTime()
+                )
                 .slice(0, 10);
+
 
             setStats({
                 totalStudents: studentsSnap.size,
@@ -169,7 +186,7 @@ export default function AdminDashboard() {
             <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
                 <div>
                     <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">Good Morning, Admin</h1>
-                    <p className="text-slate-400">Here's what's happening at the studio today.</p>
+                    <p className="text-slate-400">Here&apos;s what&apos;s happening at the studio today.</p>
                 </div>
 
                 <div className="flex items-center gap-4 w-full md:w-auto">
@@ -197,8 +214,8 @@ export default function AdminDashboard() {
                                 </SheetDescription>
                             </SheetHeader>
                             <div className="space-y-6">
-                                {recentActivity.map((item, i) => (
-                                    <div key={i} className="flex gap-4 p-4 rounded-xl bg-slate-900/50 border border-slate-800">
+                                {recentActivity.map((item) => (
+                                    <div key={item.id} className="flex gap-4 p-4 rounded-xl bg-slate-900/50 border border-slate-800">
                                         <div className="h-10 w-10 rounded-full bg-blue-500/10 flex items-center justify-center flex-shrink-0">
                                             <Users className="h-5 w-5 text-blue-500" />
                                         </div>
@@ -433,7 +450,7 @@ export default function AdminDashboard() {
             {/* Today's Schedule Table */}
             <div className="bg-slate-900/50 border border-slate-800 rounded-3xl overflow-hidden p-6 mb-8">
                 <div className="flex justify-between items-center mb-6">
-                    <h3 className="text-lg font-bold text-white">Today's Schedule</h3>
+                    <h3 className="text-lg font-bold text-white">Today&apos;s Schedule</h3>
                     <Link href="/admin/slots">
                         <Button size="sm" className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg">
                             + Add Slot
@@ -469,7 +486,8 @@ export default function AdminDashboard() {
                                         </div>
                                     </td>
                                     <td className="px-4 py-4 text-emerald-400 font-bold">
-                                        ₹{slot.price}
+                                        ₹{slot.price ?? 0}
+
                                     </td>
                                     <td className="px-4 py-4 text-slate-300">
                                         {slot.userName}

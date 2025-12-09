@@ -2,9 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { Mail, Share2, ArrowRight } from "lucide-react";
+import { Mail, Share2 } from "lucide-react";
 import Link from "next/link";
 import {
     Accordion,
@@ -12,7 +11,8 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
+
 
 export default function AboutPage() {
     return (
@@ -25,16 +25,27 @@ export default function AboutPage() {
                     <div className="flex flex-col items-center text-center">
                         <div className="relative mb-6">
                             <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-background shadow-xl">
-                                <img
+                                <Image
                                     src="/instructor-sarah.jpg"
                                     alt="Sarah Jenkins"
-                                    className="w-full h-full object-cover"
+                                    fill
+                                    className="object-cover"
                                     onError={(e) => {
-                                        e.currentTarget.style.display = 'none';
-                                        e.currentTarget.parentElement?.classList.add('bg-slate-700', 'flex', 'items-center', 'justify-center');
-                                        e.currentTarget.parentElement!.innerHTML = '<span class="text-4xl">SJ</span>';
+                                        const target = e.target as HTMLImageElement;
+                                        target.style.display = "none";
+                                        const parent = target.parentElement;
+                                        if (parent) {
+                                            parent.classList.add(
+                                                "bg-slate-700",
+                                                "flex",
+                                                "items-center",
+                                                "justify-center"
+                                            );
+                                            parent.innerHTML = '<span class="text-4xl">SJ</span>';
+                                        }
                                     }}
                                 />
+
                             </div>
                             <div className="absolute bottom-2 right-2 bg-primary rounded-full p-1.5 border-4 border-card">
                                 <Badge className="bg-transparent p-0 hover:bg-transparent shadow-none border-none">
@@ -156,7 +167,7 @@ export default function AboutPage() {
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="text-muted-foreground pb-4">
-                            Absolutely! We welcome all levels. Look for classes marked 'Beginner' or 'All Levels'.
+                            Absolutely! We welcome all levels. Look for classes marked &apos;Beginner&apos; or &apos;All Levels&apos;.
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>

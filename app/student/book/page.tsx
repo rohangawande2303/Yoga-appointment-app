@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
 import { Calendar } from "@/components/ui/calendar";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -22,18 +23,28 @@ import { motion } from "framer-motion";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { useAuth } from "@/lib/auth-context";
-import { useRouter } from "next/navigation";
+type Slot = {
+    id: string;
+    date: string;
+    time: string;
+    isBooked: boolean;
+    title: string;
+    teacher: string;
+    level: string;
+    room: string;
+    price: number;
+};
+
 
 export default function BookingPage() {
     const { user } = useAuth();
-    const router = useRouter();
     const { toast } = useToast();
     const [date, setDate] = useState<Date | undefined>(new Date());
-    const [selectedSlot, setSelectedSlot] = useState<any | null>(null); // Store entire slot object
+    const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null); // Store entire slot object
     const [isBooking, setIsBooking] = useState(false);
 
     // Real Data States
-    const [availableSlots, setAvailableSlots] = useState<any[]>([]);
+    const [availableSlots, setAvailableSlots] = useState<Slot[]>([]);
     const [loadingSlots, setLoadingSlots] = useState(false);
 
     // Fetch slots when date changes
@@ -53,22 +64,31 @@ export default function BookingPage() {
                 );
 
                 const querySnapshot = await getDocs(q);
-                const slotsData = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data(),
-                    // Default values for display since schema is simple
-                    title: "Hatha Yoga",
-                    teacher: "Sarah Jenkins",
-                    level: "All Levels",
-                    room: "Studio A",
-                    price: 500
-                }));
+                const slotsData: Slot[] = querySnapshot.docs.map((doc) => {
+                    const data = doc.data();
+
+                    return {
+                        id: doc.id,
+                        date: data.date,
+                        time: data.time,
+                        isBooked: data.isBooked,
+                        title: "Hatha Yoga",
+                        teacher: "Sarah Jenkins",
+                        level: "All Levels",
+                        room: "Studio A",
+                        price: 500,
+                    };
+                });
+
 
                 // Sort by time
-                slotsData.sort((a: any, b: any) => {
-                    // Simple time compare assuming "HH:MM AM/PM" format
-                    return new Date("1970/01/01 " + a.time).getTime() - new Date("1970/01/01 " + b.time).getTime();
+                slotsData.sort((a: Slot, b: Slot) => {
+                    return (
+                        new Date("1970/01/01 " + a.time).getTime() -
+                        new Date("1970/01/01 " + b.time).getTime()
+                    );
                 });
+
 
                 setAvailableSlots(slotsData);
             } catch (error) {
@@ -84,7 +104,7 @@ export default function BookingPage() {
         };
 
         fetchSlots();
-    }, [date]);
+    }, [date, toast]);
 
     const handleBooking = async () => {
         if (!date || !selectedSlot || !user) {
@@ -251,12 +271,18 @@ export default function BookingPage() {
                             {selectedSlot ? (
                                 <div className="bg-card border border-white/5 rounded-3xl overflow-hidden shadow-xl animate-in fade-in zoom-in duration-300">
                                     <div className="h-48 bg-slate-800 relative">
-                                        <img
+                                        <Image
                                             src="/class-hatha.jpg"
                                             alt={selectedSlot.title}
-                                            className="w-full h-full object-cover"
-                                            onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.parentElement?.classList.add('bg-slate-700'); }}
+                                            fill
+                                            className="object-cover"
+                                            onError={(e) => {
+                                                const target = e.target as HTMLImageElement;
+                                                target.style.display = "none";
+                                                target.parentElement?.classList.add("bg-slate-700");
+                                            }}
                                         />
+
                                         <Badge className="absolute top-4 right-4 bg-white/90 text-black border-none font-bold">
                                             {selectedSlot.level.toUpperCase()}
                                         </Badge>
